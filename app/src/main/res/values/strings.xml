@@ -1,0 +1,67 @@
+<resources>
+    <string name="app_name">CameraTech</string>
+    <string name="url">https://stacklearn.ir</string>
+    <string name="taking_photo">Taking photo</string>
+    <string name="resolution">Set resolution</string>
+    <string name="brightness">Brightness</string>
+    <string name="contrast">Contrast</string>
+    <string name="about">About us</string>
+    <string name="camera_focus">Camera focus</string>
+    <string name="recording_camera">Recording camera</string>
+    <string name="recording">Recording</string>
+    <string name="can_not_open_camera">Sorry, can not open camera.</string>
+    <string name="please_select_a_device">Please select a device</string>
+    <string name="exit">Exit</string>
+    <string name="camera">Camera</string>
+    <string name="settings">Settings</string>
+    <string name="internal_contact">Contact</string>
+    <string name="could_not_find_any_camera_device">Could not find any camera device.</string>
+    <string name="camera_detached">Camera detached</string>
+    <string name="connecting">connecting…</string>
+    <string name="error_in_connecting">Error in connecting</string>
+    <string name="disconnecting">Disconnecting…</string>
+    <string name="failed_to_connect">Failed to connect</string>
+    <string name="screenshot">Screenshot</string>
+    <string name="saving_record">Saving record…</string>
+    <string name="record_starting">Recording started</string>
+    <string name="saved">Saved</string>
+    <string name="change">Change</string>
+    <string name="preparing_camera">Preparing camera…</string>
+    <string name="camera_number">Camera</string>
+    <string name="return_to_home">Return to home</string>
+    <string name="language">Language</string>
+    <string name="memory">Memory</string>
+    <string name="record">Record</string>
+    <string name="select_language">Select language</string>
+    <string name="remove">Trash</string>
+    <string name="removed_successfully">Removed successfully.</string>
+    <string name="remove_data">Remove data</string>
+    <string name="intercom_is_enabled">Intercom is enabled</string>
+    <string name="emergency_phone_number">Emergency phone number</string>
+    <string name="internal_address">Internal address</string>
+    <string name="phone_number">Phone number</string>
+
+    <string-array name="languages" translatable="false">
+        <item>فارسی</item>
+        <item>English</item>
+    </string-array>
+
+    <string-array name="remove_files">
+        <item>Remove all photos</item>
+        <item>Remove all videos</item>
+    </string-array>
+    <string name="open">Open</string>
+    <string name="submit">Submit</string>
+    <string name="gallery">Gallery</string>
+    <string name="change_background">background</string>
+    <string name="back">Return</string>
+    <string name="images">Images</string>
+    <string name="videos">Videos</string>
+    <string name="no_file_found">No file found!</string>
+    <string name="play">Play</string>
+    <string name="where_to_save_photos">Save photos to</string>
+    <string name="internal_storage">Internal storage</string>
+    <string name="external_storage">External storage</string>
+    <string name="storage_path_changed">Storage path changed</string>
+
+</resources>

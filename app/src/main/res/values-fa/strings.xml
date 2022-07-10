@@ -1,0 +1,60 @@
+<resources>
+    <string name="app_name">کمراتک</string>
+    <string name="taking_photo">گرفتن عکس از صفحه</string>
+    <string name="resolution">تنظیم رزولوشن</string>
+    <string name="brightness">روشنایی</string>
+    <string name="contrast">کنتراست</string>
+    <string name="about">درباره ما</string>
+    <string name="camera_focus">فوکوس دوربین</string>
+    <string name="recording_camera">ضبط دوربین</string>
+    <string name="recording">ضبط</string>
+    <string name="url">https://stacklearn.ir</string>
+    <string name="can_not_open_camera">متاسفیم، دوربینی برای استفاده یافت نشد.</string>
+    <string name="please_select_a_device">لطفا یک دستگاه را انتخاب کنید</string>
+    <string name="exit">خروج</string>
+    <string name="camera">دوربین</string>
+    <string name="settings">تنظیمات</string>
+    <string name="internal_contact">ارتباط داخلی</string>
+    <string name="could_not_find_any_camera_device">دوربینی یافت نشد.</string>
+    <string name="camera_detached">دوربین قطع شد</string>
+    <string name="connecting">در حال اتصال…</string>
+    <string name="error_in_connecting">خطا در برقراری ارتباط با دوربین</string>
+    <string name="disconnecting">در حال قطع شدن…</string>
+    <string name="failed_to_connect">خطا در برقراری ارتباط</string>
+    <string name="screenshot">اسکرین شات</string>
+    <string name="saving_record">در حال ذخیره فایل ضبط شده…</string>
+    <string name="record_starting">در حال ضبط…</string>
+    <string name="saved">ذخیره شد</string>
+    <string name="change">تغییر</string>
+    <string name="preparing_camera">در حال آماده سازی دوربین…</string>
+    <string name="camera_number">دوربین</string>
+    <string name="return_to_home">بازگشت به خانه</string>
+    <string name="language">زبان</string>
+    <string name="memory">حافظه</string>
+    <string name="record">ضبط</string>
+    <string name="select_language">انتخاب زبان</string>
+    <string name="remove">حذف</string>
+    <string name="removed_successfully">با موفقیت پاک شد.</string>
+    <string name="remove_data">پاک کردن داده ها</string>
+    <string name="open">باز کردن</string>
+    <string-array name="remove_files">
+        <item>حذف همه عکس ها</item>
+        <item>حذف همه ویدیوها</item>
+    </string-array>
+    <string name="intercom_is_enabled">اینترکام فعال است</string>
+    <string name="emergency_phone_number">شماره تماس اورژانسی</string>
+    <string name="internal_address">آدرس داخلی</string>
+    <string name="phone_number">شماره تماس</string>
+    <string name="submit">ثبت</string>
+    <string name="gallery">گالری</string>
+    <string name="change_background">تصویر پس زمینه</string>
+    <string name="back">بازگشت</string>
+    <string name="images">عکس ها</string>
+    <string name="videos">ویدیوها</string>
+    <string name="no_file_found">فایلی پیدا نشد!</string>
+    <string name="play">پخش</string>
+    <string name="where_to_save_photos">ذخیره عکس ها در</string>
+    <string name="internal_storage">حافظه داخلی</string>
+    <string name="external_storage">حافظه خارجی</string>
+    <string name="storage_path_changed">مسیر ذخیره تغییر یافت.</string>
+</resources>
