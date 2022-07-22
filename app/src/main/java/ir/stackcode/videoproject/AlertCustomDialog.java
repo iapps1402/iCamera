@@ -4,13 +4,10 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.List;
-
-import ir.stackcode.videoproject.R;
 
 /**
  * 通用对话框
@@ -33,7 +30,7 @@ public class AlertCustomDialog {
         mBuilder.setView(rootView);
         final AlertDialog mDialog = mBuilder.create();
         mDialog.show();
-        ArrayAdapter<String> mAdapter = new ArrayAdapter<String>(mContext, R.layout.dialog_list_item_layout, R.id.dialog_list_item_content, dataList);
+        ArrayAdapter<String> mAdapter = new ArrayAdapter<>(mContext, R.layout.dialog_list_item_layout, R.id.dialog_list_item_content, dataList);
         mListView.setAdapter(mAdapter);
         mListView.setOnItemClickListener((arg0, arg1, position, arg3) -> {
             listener.onItemSelected(position);

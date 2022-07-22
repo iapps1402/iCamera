@@ -13,19 +13,20 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.list.listItems
 import com.jiangdg.usbcamera.UVCCameraHelper
 import com.skydoves.powermenu.MenuAnimation
 import com.skydoves.powermenu.PowerMenu
 import com.skydoves.powermenu.PowerMenuItem
 import helper.HelperCamera
-import helper.HelperFile
 import helper.LocaleManager
 import ir.stackcode.videoproject.R
+import ir.stackcode.videoproject.application.BaseActivity
 import ir.stackcode.videoproject.application.MyApplication
 import ir.stackcode.videoproject.databinding.FragmentHomeBinding
-import ir.stackcode.videoproject.view.*
+import ir.stackcode.videoproject.view.Camera4Activity
+import ir.stackcode.videoproject.view.CameraActivity
+import ir.stackcode.videoproject.view.ImageViewerActivity
+import ir.stackcode.videoproject.view.MainActivity
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -119,20 +120,30 @@ class HomeFragment : Fragment() {
                 // .setSelectedMenuColor(ContextCompat.getColor(context, R.color.colorPrimary))
                 .build()
 
-            menu.apply {
-                showAsAnchorCenter(binding.cameraLayout, 0, -100)
-                setOnMenuItemClickListener { position, _ ->
-                    if (position == dataList.size - 1) {
-                        startActivity(Intent(activity, Camera4Activity::class.java))
-                        return@setOnMenuItemClickListener
+            if((activity as BaseActivity).canOpenDialog()) {
+                (activity as BaseActivity).setFocusView(menu.menuListView)
+                menu.apply {
+                    showAsAnchorCenter(binding.cameraLayout, 0, -100)
+                    setOnMenuItemClickListener { position, _ ->
+                        (activity as BaseActivity).releaseFocusView()
+
+                        if (position == dataList.size - 1) {
+                            startActivity(Intent(activity, Camera4Activity::class.java))
+                            return@setOnMenuItemClickListener
+                        }
+                        startActivity(Intent(activity, CameraActivity::class.java).apply {
+                            putExtra("position", position)
+                        })
+                       // dismiss()
+                        requireActivity().finish()
                     }
 
-                    startActivity(Intent(activity, CameraActivity::class.java).apply {
-                        putExtra("position", position)
-                    })
-
-                    dismiss()
+                    setOnDismissedListener {
+                        (activity as BaseActivity).releaseFocusView()
+                    }
                 }
+            } else {
+                Log.d("Dialog", "Cant open due to another one opened")
             }
         }
 
@@ -185,7 +196,11 @@ class HomeFragment : Fragment() {
         }
 
         override fun onDettachDev(device: UsbDevice) {
-            mCameraHelper.closeCamera()
+            try {
+                mCameraHelper.closeCamera()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
 
         override fun onConnectDev(device: UsbDevice?, isConnected: Boolean) {

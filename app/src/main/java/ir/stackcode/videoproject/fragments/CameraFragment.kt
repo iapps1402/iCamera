@@ -38,6 +38,7 @@ import ir.stackcode.videoproject.R
 import ir.stackcode.videoproject.application.BaseActivity
 import ir.stackcode.videoproject.application.MyApplication
 import ir.stackcode.videoproject.databinding.ActivityUsbcameraFragmentBinding
+import ir.stackcode.videoproject.view.MainActivity
 
 class CameraFragment : Fragment(), CameraDialog.CameraDialogParent, CameraViewInterface.Callback {
 
@@ -112,6 +113,7 @@ class CameraFragment : Fragment(), CameraDialog.CameraDialogParent, CameraViewIn
 
         binding.homeLayout.setOnClickListener {
             activity?.finish()
+            startActivity(Intent(context, MainActivity::class.java))
         }
 
         return binding.root
@@ -363,19 +365,23 @@ class CameraFragment : Fragment(), CameraDialog.CameraDialogParent, CameraViewIn
     @SuppressLint("CheckResult")
     private fun showResolutionListDialog() {
         val items = getResolutionList()
-        MaterialDialog(requireActivity())
-            .title(R.string.resolution)
-            .show {
-                listItems(items = items) { _, index, _ ->
-                    if (!mCameraHelper.isCameraOpened) return@listItems
-                    val tmp = items[index].split("x").toTypedArray()
-                    if (tmp.size >= 2) {
-                        val width = tmp[0].toInt()
-                        val height = tmp[1].toInt()
-                        mCameraHelper.updateResolution(width, height)
+        if ((activity as BaseActivity).canOpenDialog()) {
+            MaterialDialog(requireActivity())
+                .title(R.string.resolution)
+                .show {
+                    (activity as BaseActivity).setFocusView(this.view)
+                    listItems(items = items) { _, index, _ ->
+                        (activity as BaseActivity).releaseFocusView()
+                        if (!mCameraHelper.isCameraOpened) return@listItems
+                        val tmp = items[index].split("x").toTypedArray()
+                        if (tmp.size >= 2) {
+                            val width = tmp[0].toInt()
+                            val height = tmp[1].toInt()
+                            mCameraHelper.updateResolution(width, height)
+                        }
                     }
                 }
-            }
+        }
     }
 
     private fun getResolutionList(): List<String> {
@@ -449,6 +455,7 @@ class CameraFragment : Fragment(), CameraDialog.CameraDialogParent, CameraViewIn
     override fun onDialogResult(canceled: Boolean) {
         if (canceled) {
             requireActivity().finish()
+            startActivity(Intent(context, MainActivity::class.java))
         }
     }
 }

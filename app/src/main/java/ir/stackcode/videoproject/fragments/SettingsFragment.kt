@@ -14,6 +14,7 @@ import helper.HelperFile
 import helper.HelperPrefs
 import helper.LocaleManager
 import ir.stackcode.videoproject.R
+import ir.stackcode.videoproject.application.BaseActivity
 import ir.stackcode.videoproject.databinding.FragmentSettingsBinding
 import ir.stackcode.videoproject.view.MainActivity
 import java.io.File
@@ -41,83 +42,95 @@ class SettingsFragment : Fragment() {
         }
 
         binding.translationLayout.setOnClickListener {
-            MaterialDialog(requireActivity())
-                .title(R.string.select_language)
-                .show {
-                    listItems(R.array.languages) { _, index, _ ->
-                        LocaleManager.setLocale(
-                            requireActivity(), when (index) {
-                                0 -> "fa"
-                                else -> "en"
-                            }
-                        )
-                        activity?.finishAffinity()
-                        startActivity(Intent(activity, MainActivity::class.java))
+            if ((activity as BaseActivity).canOpenDialog()) {
+                MaterialDialog(requireActivity())
+                    .title(R.string.select_language)
+                    .show {
+                        (activity as BaseActivity).setFocusView(this.view)
+                        listItems(R.array.languages) { _, index, _ ->
+                            LocaleManager.setLocale(
+                                requireActivity(), when (index) {
+                                    0 -> "fa"
+                                    else -> "en"
+                                }
+                            )
+                            (activity as BaseActivity).releaseFocusView()
+                            activity?.finishAffinity()
+                            startActivity(Intent(activity, MainActivity::class.java))
+                        }
                     }
-                }
+            }
         }
 
         binding.trashLayout.setOnClickListener {
-            MaterialDialog(requireActivity())
-                .title(R.string.remove_data)
-                .show {
-                    listItems(R.array.remove_files) { _, index, _ ->
-                        when (index) {
-                            0 -> {
-                                val dir =
-                                    File(HelperFile.getFileDir() + "images")
-                                if (dir.isDirectory)
-                                    dir.list()?.let {
-                                        for (i in it.indices)
-                                            File(dir, it[i]).delete()
-                                    }
+            if ((activity as BaseActivity).canOpenDialog()) {
+                MaterialDialog(requireActivity())
+                    .title(R.string.remove_data)
+                    .show {
+                        (activity as BaseActivity).setFocusView(this.view)
+                        listItems(R.array.remove_files) { _, index, _ ->
+                            when (index) {
+                                0 -> {
+                                    val dir =
+                                        File(HelperFile.getFileDir() + "images")
+                                    if (dir.isDirectory)
+                                        dir.list()?.let {
+                                            for (i in it.indices)
+                                                File(dir, it[i]).delete()
+                                        }
 
-                                Toast.makeText(
-                                    requireContext(),
-                                    R.string.removed_successfully,
-                                    Toast.LENGTH_LONG
-                                ).show()
+                                    Toast.makeText(
+                                        requireContext(),
+                                        R.string.removed_successfully,
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                }
+
+                                1 -> {
+                                    val dir =
+                                        File(HelperFile.getFileDir() + "videos")
+                                    if (dir.isDirectory)
+                                        dir.list()?.let {
+                                            for (i in it.indices)
+                                                File(dir, it[i]).delete()
+                                        }
+
+                                    Toast.makeText(
+                                        requireContext(),
+                                        R.string.removed_successfully,
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                }
                             }
-
-                            1 -> {
-                                val dir =
-                                    File(HelperFile.getFileDir() + "videos")
-                                if (dir.isDirectory)
-                                    dir.list()?.let {
-                                        for (i in it.indices)
-                                            File(dir, it[i]).delete()
-                                    }
-
-                                Toast.makeText(
-                                    requireContext(),
-                                    R.string.removed_successfully,
-                                    Toast.LENGTH_LONG
-                                ).show()
-                            }
+                            (activity as BaseActivity).releaseFocusView()
                         }
                     }
-                }
+            }
         }
 
-
         binding.memoryLayout.setOnClickListener {
-            MaterialDialog(requireActivity())
-                .title(R.string.where_to_save_photos)
-                .show {
-                    listItems(
-                        items = if (HelperFile.isSdCardPresent()) listOf(getString(R.string.internal_storage)) else listOf(
-                            getString(R.string.internal_storage),
-                            getString(R.string.external_storage)
-                        )
-                    ) { _, index, _ ->
-                        HelperPrefs(requireContext()).setStorage(if (index == 0) HelperPrefs.INTERNAL_STORAGE else HelperPrefs.EXTERNAL_STORAGE)
-                        Toast.makeText(
-                            requireContext(),
-                            R.string.storage_path_changed,
-                            Toast.LENGTH_LONG
-                        ).show()
+            if ((activity as BaseActivity).canOpenDialog()) {
+
+                MaterialDialog(requireActivity())
+                    .title(R.string.where_to_save_photos)
+                    .show {
+                        (activity as BaseActivity).setFocusView(this.view)
+                        listItems(
+                            items = if (HelperFile.isSdCardPresent()) listOf(getString(R.string.internal_storage)) else listOf(
+                                getString(R.string.internal_storage),
+                                getString(R.string.external_storage)
+                            )
+                        ) { _, index, _ ->
+                            (activity as BaseActivity).releaseFocusView()
+                            HelperPrefs(requireContext()).setStorage(if (index == 0) HelperPrefs.INTERNAL_STORAGE else HelperPrefs.EXTERNAL_STORAGE)
+                            Toast.makeText(
+                                requireContext(),
+                                R.string.storage_path_changed,
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
                     }
-                }
+            }
         }
     }
 
