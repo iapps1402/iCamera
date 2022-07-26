@@ -101,10 +101,6 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    override fun onUSBNewData(data: String) {
-
-    }
-
     fun openSettings() {
         currentFragment = SettingsFragment()
         supportFragmentManager.beginTransaction()

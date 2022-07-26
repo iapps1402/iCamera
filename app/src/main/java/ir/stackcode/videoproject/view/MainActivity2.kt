@@ -45,8 +45,4 @@ class MainActivity2 : BaseActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
-
-    override fun onUSBNewData(data: String) {
-
-    }
 }

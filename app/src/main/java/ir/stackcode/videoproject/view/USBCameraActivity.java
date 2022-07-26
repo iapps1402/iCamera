@@ -407,9 +407,4 @@ public class USBCameraActivity extends BaseActivity implements CameraDialog.Came
             isPreview = false;
         }
     }
-
-    @Override
-    public void onUSBNewData(@NonNull String data) {
-
-    }
 }

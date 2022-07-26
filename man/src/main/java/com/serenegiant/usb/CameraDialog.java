@@ -145,20 +145,17 @@ public class CameraDialog extends DialogFragment {
 	public void onResume() {
 		super.onResume();
 		updateDevices();
-	    final Button button = (Button)getDialog().findViewById(android.R.id.button3);
+	    final Button button = getDialog().findViewById(android.R.id.button3);
 	    if (button != null) {
 	    	button.setOnClickListener(mOnClickListener);
 	    }
 	}
 
-	private final OnClickListener mOnClickListener = new OnClickListener() {
-		@Override
-		public void onClick(final View v) {
-			switch (v.getId()) {
-			case android.R.id.button3:
-				updateDevices();
-				break;
-			}
+	private final OnClickListener mOnClickListener = v -> {
+		switch (v.getId()) {
+		case android.R.id.button3:
+			updateDevices();
+			break;
 		}
 	};
 

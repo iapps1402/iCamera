@@ -36,9 +36,6 @@ class CameraActivity : BaseActivity() {
        // setUserInteraction(false)
     }
 
-    override fun onUSBNewData(data: String) {
-    }
-
     private fun initFragment() {
         cameraFragment = CameraFragment().apply {
             arguments = Bundle().apply {

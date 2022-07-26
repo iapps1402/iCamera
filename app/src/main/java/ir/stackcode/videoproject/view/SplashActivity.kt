@@ -84,9 +84,6 @@ class SplashActivity: BaseActivity() {
         }
     }
 
-    override fun onUSBNewData(data: String) {
-    }
-
     private fun startMainActivity() {
         Handler().postDelayed({
             startActivity(Intent(this@SplashActivity, MainActivity2::class.java))

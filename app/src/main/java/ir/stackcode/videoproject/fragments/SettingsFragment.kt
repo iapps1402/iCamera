@@ -14,7 +14,6 @@ import helper.HelperFile
 import helper.HelperPrefs
 import helper.LocaleManager
 import ir.stackcode.videoproject.R
-import ir.stackcode.videoproject.application.BaseActivity
 import ir.stackcode.videoproject.databinding.FragmentSettingsBinding
 import ir.stackcode.videoproject.view.MainActivity
 import java.io.File
@@ -42,11 +41,9 @@ class SettingsFragment : Fragment() {
         }
 
         binding.translationLayout.setOnClickListener {
-            if ((activity as BaseActivity).canOpenDialog()) {
                 MaterialDialog(requireActivity())
                     .title(R.string.select_language)
                     .show {
-                        (activity as BaseActivity).setFocusView(this.view)
                         listItems(R.array.languages) { _, index, _ ->
                             LocaleManager.setLocale(
                                 requireActivity(), when (index) {
@@ -54,20 +51,16 @@ class SettingsFragment : Fragment() {
                                     else -> "en"
                                 }
                             )
-                            (activity as BaseActivity).releaseFocusView()
                             activity?.finishAffinity()
                             startActivity(Intent(activity, MainActivity::class.java))
                         }
                     }
-            }
         }
 
         binding.trashLayout.setOnClickListener {
-            if ((activity as BaseActivity).canOpenDialog()) {
                 MaterialDialog(requireActivity())
                     .title(R.string.remove_data)
                     .show {
-                        (activity as BaseActivity).setFocusView(this.view)
                         listItems(R.array.remove_files) { _, index, _ ->
                             when (index) {
                                 0 -> {
@@ -102,26 +95,21 @@ class SettingsFragment : Fragment() {
                                     ).show()
                                 }
                             }
-                            (activity as BaseActivity).releaseFocusView()
                         }
                     }
-            }
         }
 
         binding.memoryLayout.setOnClickListener {
-            if ((activity as BaseActivity).canOpenDialog()) {
 
                 MaterialDialog(requireActivity())
                     .title(R.string.where_to_save_photos)
                     .show {
-                        (activity as BaseActivity).setFocusView(this.view)
                         listItems(
                             items = if (HelperFile.isSdCardPresent()) listOf(getString(R.string.internal_storage)) else listOf(
                                 getString(R.string.internal_storage),
                                 getString(R.string.external_storage)
                             )
                         ) { _, index, _ ->
-                            (activity as BaseActivity).releaseFocusView()
                             HelperPrefs(requireContext()).setStorage(if (index == 0) HelperPrefs.INTERNAL_STORAGE else HelperPrefs.EXTERNAL_STORAGE)
                             Toast.makeText(
                                 requireContext(),
@@ -129,7 +117,6 @@ class SettingsFragment : Fragment() {
                                 Toast.LENGTH_LONG
                             ).show()
                         }
-                    }
             }
         }
     }

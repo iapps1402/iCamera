@@ -119,31 +119,20 @@ class HomeFragment : Fragment() {
                 .setMenuColor(Color.WHITE)
                 // .setSelectedMenuColor(ContextCompat.getColor(context, R.color.colorPrimary))
                 .build()
+            menu.apply {
+                showAsAnchorCenter(binding.cameraLayout, 0, -100)
+                setOnMenuItemClickListener { position, _ ->
 
-            if((activity as BaseActivity).canOpenDialog()) {
-                (activity as BaseActivity).setFocusView(menu.menuListView)
-                menu.apply {
-                    showAsAnchorCenter(binding.cameraLayout, 0, -100)
-                    setOnMenuItemClickListener { position, _ ->
-                        (activity as BaseActivity).releaseFocusView()
-
-                        if (position == dataList.size - 1) {
-                            startActivity(Intent(activity, Camera4Activity::class.java))
-                            return@setOnMenuItemClickListener
-                        }
-                        startActivity(Intent(activity, CameraActivity::class.java).apply {
-                            putExtra("position", position)
-                        })
-                       // dismiss()
-                        requireActivity().finish()
+                    if (position == dataList.size - 1) {
+                        startActivity(Intent(activity, Camera4Activity::class.java))
+                        return@setOnMenuItemClickListener
                     }
-
-                    setOnDismissedListener {
-                        (activity as BaseActivity).releaseFocusView()
-                    }
+                    startActivity(Intent(activity, CameraActivity::class.java).apply {
+                        putExtra("position", position)
+                    })
+                    dismiss()
+                    //  requireActivity().finish()
                 }
-            } else {
-                Log.d("Dialog", "Cant open due to another one opened")
             }
         }
 

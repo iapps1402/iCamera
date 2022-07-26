@@ -1,16 +1,14 @@
 package ir.stackcode.videoproject.fragments
 
 import android.annotation.SuppressLint
-import android.app.PendingIntent
-import android.content.Context.USB_SERVICE
-import android.content.Intent
 import android.graphics.Color
 import android.hardware.usb.UsbDevice
-import android.hardware.usb.UsbManager
-import android.os.*
+import android.os.Bundle
+import android.os.CountDownTimer
+import android.os.Handler
+import android.os.Looper
 import android.os.Looper.getMainLooper
 import android.text.TextUtils
-import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -35,10 +33,8 @@ import helper.HotKeys
 import ir.stackcode.videoproject.AlertCustomDialog
 import ir.stackcode.videoproject.DeviceInfo
 import ir.stackcode.videoproject.R
-import ir.stackcode.videoproject.application.BaseActivity
 import ir.stackcode.videoproject.application.MyApplication
 import ir.stackcode.videoproject.databinding.ActivityUsbcameraFragmentBinding
-import ir.stackcode.videoproject.view.MainActivity
 
 class CameraFragment : Fragment(), CameraDialog.CameraDialogParent, CameraViewInterface.Callback {
 
@@ -86,7 +82,7 @@ class CameraFragment : Fragment(), CameraDialog.CameraDialogParent, CameraViewIn
         binding.switchRecVoice.setOnClickListener {
             voice = !voice
             binding.switchRecVoice.setImageResource(if (voice) R.drawable.volume_on else R.drawable.volume_mute)
-            (activity as BaseActivity).writeData(if (voice) HotKeys.VOICE_ON else HotKeys.VOICE_OFF)
+            (activity?.application as MyApplication).writeData(if (voice) HotKeys.VOICE_ON else HotKeys.VOICE_OFF)
         }
 
         binding.keyLayout.setOnClickListener {
@@ -108,12 +104,12 @@ class CameraFragment : Fragment(), CameraDialog.CameraDialogParent, CameraViewIn
                 }
             }.start()
 
-            (activity as BaseActivity).writeData(HotKeys.SEND_OPEN_DOOR)
+            (activity?.application as MyApplication).writeData(HotKeys.SEND_OPEN_DOOR)
         }
 
         binding.homeLayout.setOnClickListener {
             activity?.finish()
-            startActivity(Intent(context, MainActivity::class.java))
+            //startActivity(Intent(context, MainActivity::class.java))
         }
 
         return binding.root
@@ -365,23 +361,19 @@ class CameraFragment : Fragment(), CameraDialog.CameraDialogParent, CameraViewIn
     @SuppressLint("CheckResult")
     private fun showResolutionListDialog() {
         val items = getResolutionList()
-        if ((activity as BaseActivity).canOpenDialog()) {
-            MaterialDialog(requireActivity())
-                .title(R.string.resolution)
-                .show {
-                    (activity as BaseActivity).setFocusView(this.view)
-                    listItems(items = items) { _, index, _ ->
-                        (activity as BaseActivity).releaseFocusView()
-                        if (!mCameraHelper.isCameraOpened) return@listItems
-                        val tmp = items[index].split("x").toTypedArray()
-                        if (tmp.size >= 2) {
-                            val width = tmp[0].toInt()
-                            val height = tmp[1].toInt()
-                            mCameraHelper.updateResolution(width, height)
-                        }
+        MaterialDialog(requireActivity())
+            .title(R.string.resolution)
+            .show {
+                listItems(items = items) { _, index, _ ->
+                    if (!mCameraHelper.isCameraOpened) return@listItems
+                    val tmp = items[index].split("x").toTypedArray()
+                    if (tmp.size >= 2) {
+                        val width = tmp[0].toInt()
+                        val height = tmp[1].toInt()
+                        mCameraHelper.updateResolution(width, height)
                     }
                 }
-        }
+            }
     }
 
     private fun getResolutionList(): List<String> {
@@ -455,7 +447,7 @@ class CameraFragment : Fragment(), CameraDialog.CameraDialogParent, CameraViewIn
     override fun onDialogResult(canceled: Boolean) {
         if (canceled) {
             requireActivity().finish()
-            startActivity(Intent(context, MainActivity::class.java))
+          //  startActivity(Intent(context, MainActivity::class.java))
         }
     }
 }

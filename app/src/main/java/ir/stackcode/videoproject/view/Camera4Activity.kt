@@ -1,6 +1,5 @@
 package ir.stackcode.videoproject.view
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.WindowManager
 import ir.stackcode.videoproject.application.BaseActivity
@@ -21,9 +20,6 @@ class Camera4Activity : BaseActivity() {
         setContentView(binding.root)
 
         initFragment()
-    }
-
-    override fun onUSBNewData(data: String) {
     }
 
     private fun initFragment() {
@@ -76,7 +72,7 @@ class Camera4Activity : BaseActivity() {
 
         binding.returnToHome.setOnClickListener {
             finish()
-            startActivity(Intent(this, MainActivity::class.java))
+            //startActivity(Intent(this, MainActivity::class.java))
         }
     }
 
