@@ -1,7 +1,13 @@
 package ir.stackcode.videoproject.view
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.view.WindowManager
+import helper.HotKeys.RECEIVE_OPEN_FIRST_CAMERA
+import helper.HotKeys.RECEIVE_OPEN_SECOND_CAMERA
 import ir.stackcode.videoproject.application.BaseActivity
 import ir.stackcode.videoproject.databinding.ActivityCamera4Binding
 import ir.stackcode.videoproject.fragments.CameraFragment
@@ -10,6 +16,7 @@ class Camera4Activity : BaseActivity() {
     private lateinit var binding: ActivityCamera4Binding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityCamera4Binding.inflate(layoutInflater)
 
         window.setFlags(
@@ -20,6 +27,16 @@ class Camera4Activity : BaseActivity() {
         setContentView(binding.root)
 
         initFragment()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        registerReceiver(broadcastReceiver, mIntentFilter)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        unregisterReceiver(broadcastReceiver)
     }
 
     private fun initFragment() {
@@ -78,5 +95,23 @@ class Camera4Activity : BaseActivity() {
 
     override fun onBackPressed() {
         return
+    }
+
+    private val mIntentFilter = IntentFilter("data_received")
+    private val broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(arg0: Context, intent: Intent) {
+            val position = when (intent.getStringExtra("data_received")) {
+                RECEIVE_OPEN_FIRST_CAMERA -> 0
+                RECEIVE_OPEN_SECOND_CAMERA -> 1
+                else -> -1
+            }
+
+            if(position != -1) {
+                startActivity(Intent(this@Camera4Activity, CameraActivity::class.java).apply {
+                    putExtra("position", position)
+                })
+                finish()
+            }
+        }
     }
 }

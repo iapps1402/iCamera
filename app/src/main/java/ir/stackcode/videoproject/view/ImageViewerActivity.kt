@@ -1,9 +1,14 @@
 package ir.stackcode.videoproject.view
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.graphics.Color
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import helper.HotKeys
 import ir.stackcode.videoproject.databinding.ActivityImageViewerBinding
 import ir.stackcode.videoproject.fragments.ViewerImage
 import ir.stackcode.videoproject.fragments.ViewerVideo
@@ -12,6 +17,7 @@ class ImageViewerActivity : AppCompatActivity() {
     private lateinit var binding: ActivityImageViewerBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityImageViewerBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -61,5 +67,33 @@ class ImageViewerActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         return
+    }
+
+    override fun onResume() {
+        super.onResume()
+        registerReceiver(broadcastReceiver, mIntentFilter)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        unregisterReceiver(broadcastReceiver)
+    }
+
+    private val mIntentFilter = IntentFilter("data_received")
+    private val broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(arg0: Context, intent: Intent) {
+            val position = when (intent.getStringExtra("data_received")) {
+                HotKeys.RECEIVE_OPEN_FIRST_CAMERA -> 0
+                HotKeys.RECEIVE_OPEN_SECOND_CAMERA -> 1
+                else -> -1
+            }
+
+            if(position != -1) {
+                startActivity(Intent(this@ImageViewerActivity, CameraActivity::class.java).apply {
+                    putExtra("position", position)
+                })
+                finish()
+            }
+        }
     }
 }

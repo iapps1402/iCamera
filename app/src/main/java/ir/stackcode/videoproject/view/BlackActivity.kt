@@ -1,7 +1,10 @@
 package ir.stackcode.videoproject.view
 
 import android.annotation.SuppressLint
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -17,6 +20,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import helper.HotKeys
+import helper.HotKeys.RECEIVE_OPEN_FIRST_CAMERA
+import helper.HotKeys.RECEIVE_OPEN_SECOND_CAMERA
 import ir.stackcode.videoproject.application.MyApplication
 import ir.stackcode.videoproject.view.ui.theme.VideoProjectTheme
 
@@ -26,6 +32,8 @@ class BlackActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
+
+        (application as MyApplication).writeData(HotKeys.SEND_EXIT)
 
         setContent {
             VideoProjectTheme(darkTheme = true) {
@@ -65,5 +73,34 @@ class BlackActivity : ComponentActivity() {
 
     override fun onBackPressed() {
         return
+    }
+
+    override fun onResume() {
+        super.onResume()
+        registerReceiver(broadcastReceiver, mIntentFilter)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        unregisterReceiver(broadcastReceiver)
+    }
+
+    private val mIntentFilter = IntentFilter("data_received")
+    private val broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(arg0: Context, intent: Intent) {
+            val position = when (intent.getStringExtra("data_received")) {
+                RECEIVE_OPEN_FIRST_CAMERA -> 0
+                RECEIVE_OPEN_SECOND_CAMERA -> 1
+                else -> -1
+            }
+
+            if(position != -1) {
+                startActivity(Intent(this@BlackActivity, MainActivity::class.java))
+                startActivity(Intent(this@BlackActivity, CameraActivity::class.java).apply {
+                    putExtra("position", position)
+                })
+                finish()
+            }
+        }
     }
 }

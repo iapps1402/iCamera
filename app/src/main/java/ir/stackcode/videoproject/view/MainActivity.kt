@@ -1,16 +1,22 @@
 package ir.stackcode.videoproject.view
 
 import android.annotation.SuppressLint
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.hardware.usb.UsbDevice
 import android.hardware.usb.UsbManager
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
 import android.view.WindowManager
+import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
+import helper.HotKeys
 import ir.stackcode.videoproject.R
 import ir.stackcode.videoproject.application.BaseActivity
 import ir.stackcode.videoproject.databinding.ActivityMain2Binding
@@ -22,9 +28,11 @@ import ir.stackcode.videoproject.utils.PermissionUtil
 import ir.stackcode.videoproject.utils.PermissionUtil.COMMAND_CHOWN_USB_FILE
 import ir.stackcode.videoproject.utils.PermissionUtil.COMMAND_COPY_USB_FILE
 import ir.stackcode.videoproject.utils.RootUtil
+import java.io.IOException
 import java.lang.reflect.Method
 
 class MainActivity : BaseActivity() {
+
     private lateinit var currentFragment: Fragment
     private lateinit var binding: ActivityMain2Binding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,7 +77,6 @@ class MainActivity : BaseActivity() {
     }
 
 
-
     @SuppressLint("SoonBlockedPrivateApi")
     fun grantAutomaticUsbPermissionRoot(context: Context, usbDevice: UsbDevice): Boolean {
         return try {
@@ -102,10 +109,23 @@ class MainActivity : BaseActivity() {
     }
 
     fun openSettings() {
+        val digits = arrayOf(15, 2, 3, 20, 8, 11, 99, 70, 80, 8, 15)
+        println(digits.filter { it > 10 }.toString())
+
         currentFragment = SettingsFragment()
         supportFragmentManager.beginTransaction()
             .replace(binding.container.id, currentFragment)
             .commit()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        registerReceiver(broadcastReceiver, mIntentFilter)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        unregisterReceiver(broadcastReceiver)
     }
 
     fun openContact() {
@@ -157,5 +177,22 @@ class MainActivity : BaseActivity() {
     fun notifyBackgroundChanged() {
         val prefs = getSharedPreferences("prefs", 0)
         binding.wallpaper.setImageResource(prefs.getInt("wallpaper_id", R.drawable.wallpaper_1))
+    }
+
+    private val mIntentFilter = IntentFilter("data_received")
+    private val broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(arg0: Context, intent: Intent) {
+            val position = when (intent.getStringExtra("data_received")) {
+                HotKeys.RECEIVE_OPEN_FIRST_CAMERA -> 0
+                HotKeys.RECEIVE_OPEN_SECOND_CAMERA -> 1
+                else -> -1
+            }
+
+            if(position != -1) {
+                startActivity(Intent(this@MainActivity, CameraActivity::class.java).apply {
+                    putExtra("position", position)
+                })
+            }
+        }
     }
 }

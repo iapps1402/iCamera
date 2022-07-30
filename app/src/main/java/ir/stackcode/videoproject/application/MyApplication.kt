@@ -5,8 +5,9 @@ import android.app.Instrumentation
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
+import android.content.Intent.*
 import android.hardware.usb.UsbManager
+import android.media.MediaPlayer
 import android.os.CountDownTimer
 import android.os.SystemClock
 import android.util.Log
@@ -15,6 +16,8 @@ import com.hoho.android.usbserial.driver.UsbSerialPort
 import com.hoho.android.usbserial.driver.UsbSerialProber
 import com.hoho.android.usbserial.util.SerialInputOutputManager
 import com.yariksoffice.lingver.Lingver
+import helper.HotKeys.RECEIVE_OPEN_FIRST_CAMERA
+import helper.HotKeys.RECEIVE_OPEN_SECOND_CAMERA
 import helper.LocaleManager
 import io.github.inflationx.calligraphy3.CalligraphyConfig
 import io.github.inflationx.calligraphy3.CalligraphyInterceptor
@@ -104,7 +107,7 @@ class MyApplication : Application(), SerialInputOutputManager.Listener, OnUSBLis
 
     fun blackenScreen() {
         startActivity(Intent(this@MyApplication, BlackActivity::class.java).apply {
-            flags = FLAG_ACTIVITY_CLEAR_TOP
+            flags = FLAG_ACTIVITY_CLEAR_TOP or FLAG_ACTIVITY_CLEAR_TASK or FLAG_ACTIVITY_NEW_TASK
         })
         timer.cancel()
     }
@@ -178,9 +181,38 @@ class MyApplication : Application(), SerialInputOutputManager.Listener, OnUSBLis
 
             else -> {
                 dataReceived += String(data)
+                startRingtone()
+                if (dataReceived == RECEIVE_OPEN_FIRST_CAMERA || dataReceived == RECEIVE_OPEN_SECOND_CAMERA) {
+                    sendBroadcast(Intent().apply {
+                        putExtra("data_received", dataReceived)
+                    })
+
+                    dataReceived = ""
+                }
+
+                if (dataReceived.length > 2)
+                    dataReceived = ""
+
                 Log.d(TAG, "Data received: " + String(data))
             }
         }
+    }
+
+    private fun startRingtone() {
+        val afd = resources.assets.openFd("mp3/ringtone.mp3")
+        val player = MediaPlayer()
+        try {
+
+            player.setDataSource(afd.fileDescriptor, afd.startOffset, afd.length)
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        try {
+            player.prepare()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        player.start()
     }
 
     private var critical = false
@@ -245,7 +277,11 @@ class MyApplication : Application(), SerialInputOutputManager.Listener, OnUSBLis
     }
 
     fun writeData(data: String) {
-        port?.write(data.toByteArray(), 2000)
+        try {
+            port?.write(data.toByteArray(), 2000)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
         Log.d(TAG, "Data sent: $data")
     }
 
@@ -255,9 +291,7 @@ class MyApplication : Application(), SerialInputOutputManager.Listener, OnUSBLis
     private var dataReceived = ""
     private var pointReceived = ""
     override fun onUSBNewData(data: String) {
-        Log.d("sssssssss", data)
-        sendBroadcast(Intent().apply {
-            putExtra("data_received", data)
-        })
+
+        Log.d("ssssss", data)
     }
 }

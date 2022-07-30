@@ -17,7 +17,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:alpha=".7"
+        android:alpha=".55"
         android:background="@android:color/black" />
 
     <FrameLayout

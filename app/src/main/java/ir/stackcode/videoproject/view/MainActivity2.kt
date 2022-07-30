@@ -44,5 +44,5 @@ class MainActivity2 : BaseActivity() {
             )
         }
         return super.onOptionsItemSelected(item)
-    }
+ }
 }

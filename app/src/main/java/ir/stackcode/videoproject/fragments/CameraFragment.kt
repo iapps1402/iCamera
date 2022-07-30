@@ -9,6 +9,7 @@ import android.os.Handler
 import android.os.Looper
 import android.os.Looper.getMainLooper
 import android.text.TextUtils
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -63,6 +64,8 @@ class CameraFragment : Fragment(), CameraDialog.CameraDialogParent, CameraViewIn
             position = it.getInt("position")
         }
 
+        (activity?.application as MyApplication).writeData(if(position == 0) HotKeys.SEND_FIRST_CAMERA_SELECTED else HotKeys.SEND_SECOND_CAMERA_SELECTED)
+
         binding.positionText.text = "${getString(R.string.camera_number)} " + " ${position + 1}"
 
         mCameraHelper = UVCCameraHelper().apply {
@@ -82,7 +85,7 @@ class CameraFragment : Fragment(), CameraDialog.CameraDialogParent, CameraViewIn
         binding.switchRecVoice.setOnClickListener {
             voice = !voice
             binding.switchRecVoice.setImageResource(if (voice) R.drawable.volume_on else R.drawable.volume_mute)
-            (activity?.application as MyApplication).writeData(if (voice) HotKeys.VOICE_ON else HotKeys.VOICE_OFF)
+          //  (activity?.application as MyApplication).writeData(if (voice) HotKeys.VOICE_ON else HotKeys.VOICE_OFF)
         }
 
         binding.keyLayout.setOnClickListener {
@@ -104,7 +107,8 @@ class CameraFragment : Fragment(), CameraDialog.CameraDialogParent, CameraViewIn
                 }
             }.start()
 
-            (activity?.application as MyApplication).writeData(HotKeys.SEND_OPEN_DOOR)
+
+            (activity?.application as MyApplication).writeData(if(position == 0) HotKeys.SEND_OPEN_FIRST_DOOR else HotKeys.SEND_OPEN_SECOND_DOOR)
         }
 
         binding.homeLayout.setOnClickListener {
