@@ -75,9 +75,9 @@
             tools:ignore="UnusedAttribute">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
+                <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
-
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
@@ -121,6 +121,7 @@
         <activity
             android:name=".view.Camera4Activity"
             android:exported="true"
+            android:launchMode="singleInstance"
             android:directBootAware="true"
             android:screenOrientation="landscape"
             tools:ignore="LockedOrientationActivity">
@@ -139,6 +140,7 @@
         <activity
             android:name=".view.USBCameraActivity"
             android:exported="true"
+            android:launchMode="singleInstance"
             android:directBootAware="true"
             android:screenOrientation="landscape"
             tools:ignore="LockedOrientationActivity">
