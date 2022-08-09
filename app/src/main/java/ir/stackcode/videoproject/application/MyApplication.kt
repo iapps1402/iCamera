@@ -185,6 +185,7 @@ class MyApplication : Application(), SerialInputOutputManager.Listener, OnUSBLis
                 if (dataReceived == RECEIVE_OPEN_FIRST_CAMERA || dataReceived == RECEIVE_OPEN_SECOND_CAMERA) {
                     sendBroadcast(Intent().apply {
                         putExtra("data_received", dataReceived)
+                        action = "data_received"
                     })
 
                     dataReceived = ""
