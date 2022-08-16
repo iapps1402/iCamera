@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
-import ir.stackcode.videoproject.databinding.LiMediaViewerBinding
+import ir.stackcode.icamera.databinding.LiMediaViewerBinding
 
 
 class BackgroundSettingsViewPagerAdapter(

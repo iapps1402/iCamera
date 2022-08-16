@@ -6,7 +6,7 @@
 //        jcenter() // Warning: this repository is going to shut down soon
 //    }
 //}
-rootProject.name = "VideoProject"
+rootProject.name = "iCamera"
 include ':app'
 include ':libuvccamera'
 include ':man'

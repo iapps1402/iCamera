@@ -1,8 +1,7 @@
 package helper
 
-import android.util.Log
 import com.jiangdg.usbcamera.UVCCameraHelper
-import ir.stackcode.videoproject.DeviceInfo
+import ir.stackcode.icamera.DeviceInfo
 
 object HelperCamera {
 

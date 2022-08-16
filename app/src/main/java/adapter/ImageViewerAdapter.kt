@@ -1,6 +1,5 @@
 package adapter
 
-import android.app.Activity
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +7,7 @@ import android.view.ViewGroup
 import androidx.core.net.toUri
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
-import ir.stackcode.videoproject.databinding.ImageViewerItemBinding
+import ir.stackcode.icamera.databinding.ImageViewerItemBinding
 import java.io.File
 
 

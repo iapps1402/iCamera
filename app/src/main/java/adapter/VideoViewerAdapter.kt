@@ -9,11 +9,10 @@ import android.util.Size
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.net.toUri
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
-import ir.stackcode.videoproject.databinding.VideoViewerItemBinding
-import ir.stackcode.videoproject.view.VideoPlayerActivity
+import ir.stackcode.icamera.databinding.VideoViewerItemBinding
+import ir.stackcode.icamera.view.VideoPlayerActivity
 import java.io.File
 
 
