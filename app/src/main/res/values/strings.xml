@@ -63,5 +63,6 @@
     <string name="internal_storage">Internal storage</string>
     <string name="external_storage">External storage</string>
     <string name="storage_path_changed">Storage path changed</string>
+    <string name="parking_door">Parking door</string>
 
 </resources>

@@ -57,4 +57,5 @@
     <string name="internal_storage">حافظه داخلی</string>
     <string name="external_storage">حافظه خارجی</string>
     <string name="storage_path_changed">مسیر ذخیره تغییر یافت.</string>
+    <string name="parking_door">درب پارکینگ</string>
 </resources>

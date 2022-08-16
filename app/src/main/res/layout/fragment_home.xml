@@ -142,7 +142,7 @@
                 android:layout_width="@dimen/icon_size"
                 android:layout_height="@dimen/icon_size"
                 android:layout_marginTop="2.5dp"
-                android:src="@drawable/ic_power" />
+                android:src="@drawable/ic_logout" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -175,7 +175,7 @@
                 android:layout_width="@dimen/icon_size"
                 android:layout_height="@dimen/icon_size"
                 android:layout_marginTop="2.5dp"
-                android:src="@drawable/ic_cog" />
+                android:src="@drawable/ic_three_cog" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -235,7 +235,7 @@
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/gallery_layout"
-            app:layout_constraintStart_toEndOf="@+id/camera_layout"
+            app:layout_constraintStart_toEndOf="@+id/parking_layout"
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
@@ -259,6 +259,39 @@
 
 
         <LinearLayout
+            android:id="@+id/parking_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/camera_layout"
+            app:layout_constraintStart_toEndOf="@+id/contact_layout"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:src="@drawable/ic_parking" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2.5dp"
+                android:shadowColor="@color/black"
+                android:shadowDx="1"
+                android:shadowDy="1"
+                android:shadowRadius="2"
+                android:text="@string/parking_door"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/font_size" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
             android:id="@+id/camera_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -268,14 +301,14 @@
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/contact_layout"
+            app:layout_constraintStart_toEndOf="@+id/parking_layout"
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:layout_width="@dimen/icon_size"
                 android:layout_height="@dimen/icon_size"
                 android:layout_marginTop="2.5dp"
-                android:src="@drawable/ic_camera" />
+                android:src="@drawable/ic_security_camera" />
 
             <TextView
                 android:layout_width="wrap_content"

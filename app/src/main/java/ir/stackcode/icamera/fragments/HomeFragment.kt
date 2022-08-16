@@ -17,6 +17,7 @@ import com.skydoves.powermenu.MenuAnimation
 import com.skydoves.powermenu.PowerMenu
 import com.skydoves.powermenu.PowerMenuItem
 import helper.HelperCamera
+import helper.HotKeys
 import helper.LocaleManager
 import ir.stackcode.icamera.R
 import ir.stackcode.icamera.application.MyApplication
@@ -70,6 +71,10 @@ class HomeFragment : Fragment() {
 
         binding.galleryLayout.setOnClickListener {
             startActivity(Intent(requireContext(), ImageViewerActivity::class.java))
+        }
+
+        binding.parkingLayout.setOnClickListener {
+            (activity?.application as MyApplication).writeData(HotKeys.SEND_OPEN_PARKING)
         }
 
         binding.settingsLayout.setOnClickListener {

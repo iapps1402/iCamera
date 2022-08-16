@@ -26,7 +26,7 @@ import io.github.inflationx.viewpump.ViewPump
 import ir.stackcode.icamera.utils.OnUSBListener
 import ir.stackcode.icamera.view.BlackActivity
 
-import ir.stackcode.videoproject.R
+import ir.stackcode.icamera.R
 import java.io.DataOutputStream
 import java.io.IOException
 import java.util.*
